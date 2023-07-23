@@ -118,8 +118,26 @@ class Tokenizer:
             tokens.append(self.get_next_token())
         return tokens[::-1]
 
+class ASTNode:
 
 
 
 
+class Scalar(ASTNode):
+    def __init__(self, token):
+        self.token = token
+        self.value = self.token.value
+
+    def __str__(self):
+        return f"S(self.value)"
+    
+    def __repr__(self):
+        return self.__str__()
+
+
+class Mop(ASTNode):
+    def __init__(self, token, child):
+        self.token = token
+        self.child = child
+        
 

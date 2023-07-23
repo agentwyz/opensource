@@ -175,11 +175,54 @@ explicate-control
 因为我们在做增量
 
 ```
+
+R1:
 (let ([x (let ([y (- 42)]) y)])
  (- x))
 
+R2:
+    start:
+        y = (-42);
+        x = yi
+        return (-x)
 ```
 
 编译器的增量是一种优化技术, 用于减少在每次代码更改时重新编译整个程序时间和资源消耗。
 
 传统上, 编译器在每次源代码发生变化的时候就会重新进行编译
+
+```bnaf
+CO atom : int | var
+   
+   exp  : atm | (read) | (- atom) | (+ atm atm)
+   
+   stmt : var = exp
+   
+   tail : retrun exp
+        | stmt tail
+
+C0 : start:
+        tail
+
+R1 : exp -> nt
+         -> tail
+
+
+R1 : tail
+
+tail : atom | (read) | (-atom)
+     | (let ([var nt]) tail)
+
+nt : atm | (let ([var nt]) nt)
+
+                 ->intail position R1
+explicate-tail   : exp
+explicate-assign : exp -> var
+    -> tail x
+```
+
+```
+(struct A
+    (:a Int)
+    (:b Int))
+```
